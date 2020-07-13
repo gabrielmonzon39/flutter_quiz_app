@@ -1,27 +1,35 @@
 import 'package:flutter/material.dart';
 
-// void main() {
-//   runApp(QuizApp());
-// }
+import './question.dart';
+import './answer.dart';
 
 void main() => runApp(QuizApp());
 
 class QuizApp extends StatefulWidget {
-
   @override
   State<StatefulWidget> createState() {
-    return QuizAppState();
+    return _QuizAppState();
   }
 }
-class QuizAppState extends State<QuizApp> {
-  var questions = [
-    'Question #1',
-    'Question #2',
-    'Question #3'
+
+class _QuizAppState extends State<QuizApp> {
+  static const questions = [
+    {
+      'question': 'What\'s your Favorite Color?',
+      'answers': ['Blued', 'Red', 'Orange'],
+    },
+    {
+      'question': 'Favorite PS4 game?',
+      'answers': ['Siege', 'Rocket League', 'TLOU'],
+    },
+    {
+      'question': 'Favorite R6 Operator',
+      'answers': ['Blackbeard', 'Vigil', 'Doc'],
+    }
   ];
   var question_index = 0;
 
-  void answerQuestion(){
+  void _answerQuestion() {
     setState(() {
       question_index += 1;
     });
@@ -35,19 +43,12 @@ class QuizAppState extends State<QuizApp> {
         appBar: AppBar(title: Text("My first app")),
         body: Column(
           children: [
-            Text(questions[question_index]),
-            RaisedButton(
-              child: Text('answer 1'),
-              onPressed: answerQuestion,
+            Question(
+              questions[question_index]['question'],
             ),
-            RaisedButton(
-              child: Text('answer 2'),
-              onPressed: answerQuestion,
-            ),
-            RaisedButton(
-              child: Text('answer 3'),
-              onPressed: answerQuestion,
-            ),
+            ...(questions[question_index]['answers'] as List<String>).map((answer){
+              return Answer(_answerQuestion, answer);
+            }).toList()
           ],
         ),
       ),
